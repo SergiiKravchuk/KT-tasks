@@ -1,5 +1,6 @@
 package org.example.kt_tasks.spring_reactor.warmup;
 
+import org.example.kt_tasks.exception.ExerciseNotCompletedException;
 import org.example.kt_tasks.spring_reactor.entity.Payment;
 import org.example.kt_tasks.spring_reactor.entity.PaymentDetails;
 import reactor.core.publisher.Flux;
@@ -23,12 +24,8 @@ class PaymentProcessor {
    * This method returns a {@link Payment#sender} of the given payment.
    */
   public Mono<String> processPayment(Mono<Payment> paymentMono) {
-    return paymentMono
-      .map(payment -> {
-        System.out.println("Processing payment: " + payment);
-        return payment.getSender();
-      })
-      .doOnSuccess(sender -> System.out.println("Payment processing completed successfully."));
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   /**
@@ -36,13 +33,8 @@ class PaymentProcessor {
    * This method returns a {@link Payment#sender} of all the given payments.
    */
   public Flux<String> processBatchPayments(Flux<Payment> paymentsFlux) {
-    return paymentsFlux
-      .map(payment -> {
-        System.out.println("Processing batch payment: " + payment);
-        return payment.getSender();
-      })
-      .doOnNext(sender -> System.out.println("Processed sender: " + sender))
-      .doOnComplete(() -> System.out.println("Batch payment processing completed."));
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   /**
@@ -51,7 +43,8 @@ class PaymentProcessor {
    * to the {@link PaymentProcessor#paymentAmountLimit}.
    */
   public Flux<Payment> filterPaymentsWithinLimit(Flux<Payment> paymentMono) {
-    return paymentMono.filter(payment -> payment.getAmount() <= paymentAmountLimit);
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   /**
@@ -60,8 +53,8 @@ class PaymentProcessor {
    * and generates a formatted message using {@link PaymentProcessor#formatPaymentDetails}
    */
   public Mono<String> processPaymentWithDetails(Mono<Payment> paymentMono) {
-    return paymentMono
-      .flatMap(payment -> fetchPaymentDetails(payment.getId()).map(details -> formatPaymentDetails(payment, details)));
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   private String formatPaymentDetails(Payment payment, PaymentDetails paymentDetails) {
@@ -82,12 +75,8 @@ class PaymentProcessor {
    * Otherwise, passes the given payment through.
    */
   public Mono<String> processPaymentWithErrorHandling(Mono<Payment> paymentMono) {
-    return paymentMono
-      .<String>handle((payment, sink) -> {
-        if (payment.getAmount() >= 0) sink.next(payment.getSender());
-        else sink.error(new IllegalArgumentException("Invalid payment amount: " + payment.getAmount()));
-      })
-      .doOnError(error -> System.err.println("Error encountered: " + error.getMessage()));
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   /**
@@ -98,11 +87,8 @@ class PaymentProcessor {
    * Otherwise, passes any other payment through.
    */
   public Flux<String> processBatchPaymentsWithErrorHanding(Flux<Payment> paymentsFlux) {
-    return paymentsFlux
-      .handle((payment, sink) -> {
-        if (payment.getAmount() >= 0) sink.next(payment.getSender());
-        else sink.error(new IllegalArgumentException("Invalid payment amount: " + payment.getAmount()));
-      });
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   /**
@@ -111,9 +97,8 @@ class PaymentProcessor {
    * suppresses any error that may occur during payments processing.
    */
   public Flux<String> processBatchPaymentsWithErrorSuppression(Flux<Payment> paymentsFlux) {
-    return processBatchPaymentsWithErrorHanding(paymentsFlux)
-      .onErrorContinue((throwable, payment) ->
-        System.err.println("Error processing payment: " + payment + " - " + throwable.getMessage()));
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   /**
@@ -121,13 +106,8 @@ class PaymentProcessor {
    * This method combines two given payments and generates a formatted message using {@link PaymentProcessor#formatCombinedPayment}
    */
   public Mono<String> processCombinedPayment(Mono<Payment> paymentMono1, Mono<Payment> paymentMono2) {
-    return Mono.zip(paymentMono1, paymentMono2)
-      .map(tuple -> {
-        Payment payment1 = tuple.getT1();
-        Payment payment2 = tuple.getT2();
-        System.out.printf("Combining data from payments: %s and %s%n", payment1, payment2);
-        return formatCombinedPayment(payment1, payment2);
-      });
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   private String formatCombinedPayment(Payment payment1, Payment payment2) {
@@ -141,10 +121,8 @@ class PaymentProcessor {
    * and keep the payment unchanged.
    */
   public Mono<Payment> countPayment(Mono<Payment> paymentMono) {
-    return paymentMono.doOnNext(payment -> {
-      int incremented = counter.incrementAndGet();
-      System.out.printf("Incrementing payment count to %d%n", incremented);
-    });
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   private final AtomicInteger counter = new AtomicInteger(0);
@@ -159,7 +137,8 @@ class PaymentProcessor {
    * This method returns the result of {@link PaymentProcessor#sentNotification} which is a next step of the given signal.
    */
   public Mono<String> notifyOnSuccessSignal(Mono<Void> paymentSuccessSignalMono) {
-    return paymentSuccessSignalMono.then(sentNotification());
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
   // Simulate sending notification
@@ -176,9 +155,8 @@ class PaymentProcessor {
    * {@code Got an error: < message from upstream exception > }
    */
   public Flux<String> processBatchPaymentsWithNullInput(Flux<Payment> paymentsFlux) {
-    return paymentsFlux
-      .map(Payment::getSender)
-      .onErrorMap(throwable -> new Exception("Got an error: " + throwable.getMessage()));
+    //TODO: Add implementation according to the method's description.
+    throw new ExerciseNotCompletedException();
   }
 
 }

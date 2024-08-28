@@ -20,8 +20,12 @@
 <body>
 
 <div>
-    <p align="center">Temperature, °</p>
-    <div class="temperatureBox" id="temperatureBox">0</div>
+    <p align="center">Temperature, C°</p>
+    <div class="temperatureBox" id="mvcTemperatureBox">0</div>
+</div>
+<div>
+    <p align="center">Flux Temperature, C°</p>
+    <div class="temperatureBox" id="fluxTemperatureBox">0</div>
 </div>
 
 <script>
@@ -31,7 +35,7 @@
     // Listen for messages from the server
     temperatureSource.onmessage = function (event) {
         // Update the number in the box with the received data
-        document.getElementById('temperatureBox').innerText = formatTemperatureValue(event.data);
+        document.getElementById('mvcTemperatureBox').innerText = formatTemperatureValue(event.data);
     };
 
     // Handle any errors with the connection
@@ -40,10 +44,20 @@
         temperatureSource.close();
     };
 
+    const fluxTemperatureSource = new EventSource('http://localhost:8080/temperature-flux');
+
+    fluxTemperatureSource.onmessage = function (event) {
+        document.getElementById('fluxTemperatureBox').innerText = formatTemperatureValue(event.data);
+    };
+
+    fluxTemperatureSource.onerror = function () {
+        console.error("Error occurred with the SSE connection.");
+        fluxTemperatureSource.close();
+    };
 
     // Format temperature value for better readability
     function formatTemperatureValue(temperatureValue) {
-        return `${Number.parseFloat(temperatureValue).toFixed(2)}°`;
+        return `${Number.parseFloat(temperatureValue).toFixed(2)}C°`;
     }
 </script>
 

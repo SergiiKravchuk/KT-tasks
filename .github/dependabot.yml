@@ -1,0 +1,127 @@
+version: 2
+
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    # This schedule controls version checks, not alert-driven security updates.
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Europe/Kyiv"
+    open-pull-requests-limit: 10
+
+    groups:
+      # Alert-driven fixes, including major upgrades when needed.
+      # Keep catch-all groups after the named families.
+      spring-security:
+        applies-to: security-updates
+        patterns:
+          - "org.springframework*"
+
+      jackson-security:
+        applies-to: security-updates
+        patterns:
+          - "com.fasterxml.jackson*"
+
+      netty-security:
+        applies-to: security-updates
+        patterns:
+          - "io.netty*"
+
+      testing-security:
+        applies-to: security-updates
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.testcontainers*"
+
+      remaining-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+      # Ordinary patch and minor updates are reviewed separately.
+      # Majors are intentionally ungrouped, not ignored.
+      spring-patches:
+        applies-to: version-updates
+        patterns:
+          - "org.springframework*"
+        update-types:
+          - "patch"
+
+      spring-minors:
+        applies-to: version-updates
+        patterns:
+          - "org.springframework*"
+        update-types:
+          - "minor"
+
+      jackson-patches:
+        applies-to: version-updates
+        patterns:
+          - "com.fasterxml.jackson*"
+        update-types:
+          - "patch"
+
+      jackson-minors:
+        applies-to: version-updates
+        patterns:
+          - "com.fasterxml.jackson*"
+        update-types:
+          - "minor"
+
+      netty-patches:
+        applies-to: version-updates
+        patterns:
+          - "io.netty*"
+        update-types:
+          - "patch"
+
+      netty-minors:
+        applies-to: version-updates
+        patterns:
+          - "io.netty*"
+        update-types:
+          - "minor"
+
+      testing-patches:
+        applies-to: version-updates
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.testcontainers*"
+        update-types:
+          - "patch"
+
+      testing-minors:
+        applies-to: version-updates
+        patterns:
+          - "org.junit*"
+          - "org.mockito*"
+          - "org.testcontainers*"
+        update-types:
+          - "minor"
+
+      remaining-patches:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "patch"
+
+      remaining-minors:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+
+  # Update action references when workflows are present.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:30"
+      timezone: "Europe/Kyiv"
